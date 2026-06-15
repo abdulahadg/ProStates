@@ -38,6 +38,7 @@ import {
   Shield,
   Clock,
   ArrowUp,
+  ArrowRight,
   Map,
   BadgeDollarSign
 } from 'lucide-react';
@@ -102,11 +103,7 @@ export default function App() {
   const [authModalTab, setAuthModalTab] = useState<'login' | 'signup'>('login');
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
-  const [darkMode, setDarkMode] = useState<boolean>(() => {
-    // Check localStorage or system theme defaults
-    const saved = localStorage.getItem('airbnb_dark_mode');
-    return saved ? saved === 'true' : false;
-  });
+  const [darkMode, setDarkMode] = useState<boolean>(true);
 
   const [wishlist, setWishlist] = useState<number[]>(() => {
     const saved = localStorage.getItem('airbnb_wishlist');
@@ -734,14 +731,7 @@ export default function App() {
               Airbnb your home
             </button>
             
-            <button 
-              onClick={() => setDarkMode(!darkMode)}
-              className="p-2.5 hover:bg-gray-150 dark:hover:bg-slate-800 rounded-full text-gray-600 dark:text-gray-300 transition-all active:scale-90"
-              aria-label="Toggle dark mode"
-              id="theme-toggle"
-            >
-              {darkMode ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5" />}
-            </button>
+
 
             {/* Profile Menu Trigger */}
             <div ref={profileMenuRef}>
@@ -1031,98 +1021,188 @@ export default function App() {
 
       {activeView === 'home' && (
         <>
-          {/* 2. HERO SPLASH MARKETING BANNER (Classic campaigns with professional animations) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8" id="hero-marketing-campaigns">
-        <div className="relative rounded-3xl overflow-hidden shadow-xl aspect-[16/9] sm:aspect-[21/9] md:aspect-[3/1] bg-slate-950 group">
+          {/* 2. HERO SPLASH MARKETING BANNER (Stunning Editorial Two-Column Immersive Showcase) */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 sm:mb-16 mt-4" id="hero-marketing-campaigns">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
-          <AnimatePresence mode="wait">
-            <motion.div 
-              key={currentSlide}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.8 }}
-              className="absolute inset-0 w-full h-full"
-            >
-              {/* Hero background image */}
-              <img 
-                src={bannerSlides[currentSlide].image}
-                alt={bannerSlides[currentSlide].title}
-                className="absolute inset-0 w-full h-full object-cover opacity-50 transition-all duration-1000 scale-102"
-              />
-              {/* Soft color overlay gradients */}
-              <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/45 to-transparent flex items-center" />
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Banner content */}
-          <div className="absolute left-6 sm:left-12 inset-y-0 flex flex-col justify-center max-w-lg text-white pr-4 z-10 pointer-events-none">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentSlide}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.5 }}
-                className="space-y-3 sm:space-y-4 pointer-events-auto"
-              >
-                <span className="inline-flex items-center gap-1.5 bg-[#FF385C] text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
-                  <Sparkles className="w-3 h-3 animate-pulse" />
-                  {bannerSlides[currentSlide].badge}
-                </span>
-                
-                <h1 className="text-2xl sm:text-3xl md:text-5xl font-extrabold tracking-tight leading-tight whitespace-pre-line">
-                  {bannerSlides[currentSlide].title}
-                </h1>
-                
-                <p className="text-xs sm:text-sm md:text-base text-gray-200 max-w-md line-clamp-2">
-                  {bannerSlides[currentSlide].text}
-                </p>
-                
-                <div className="pt-2">
-                  <button 
-                    onClick={() => {
-                      const catId = bannerSlides[currentSlide].category;
-                      setActiveCategory(catId);
-                      handleCategorySelect(catId);
-                    }}
-                    className="bg-white hover:bg-black hover:text-white dark:bg-white dark:hover:bg-slate-900 dark:hover:text-white text-black px-6 py-3 rounded-xl text-xs sm:text-sm font-bold shadow-md hover:scale-[1.03] transition-all cursor-pointer border border-transparent hover:border-white/20 active:scale-95"
-                  >
-                    {bannerSlides[currentSlide].buttonText}
-                  </button>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* Dots Navigation indicators */}
-          <div className="absolute bottom-4 right-6 sm:right-12 flex gap-2 z-20">
-            {bannerSlides.map((_, idx) => (
+          {/* Left Column: Premium Editorial Context */}
+          <div className="lg:col-span-7 flex flex-col justify-center space-y-6">
+            
+            {/* Glowing Capsule Badge with real animated pulse indicator */}
+            <div className="inline-flex items-center gap-2 bg-slate-800/80 border border-slate-700/50 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-bold text-[#FF385C] tracking-wide self-start shadow-sm mb-1">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF385C]"></span>
+              </span>
+              <span className="uppercase tracking-widest text-[9.5px] font-black">
+                {bannerSlides[currentSlide].badge}
+              </span>
+            </div>
+            
+            {/* Immersive animated Heading & Description */}
+            <div className="min-h-[160px] sm:min-h-[180px] flex flex-col justify-start">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentSlide}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  className="space-y-4"
+                >
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-white select-none whitespace-pre-line">
+                    {bannerSlides[currentSlide].title}
+                  </h1>
+                  <p className="text-sm sm:text-base text-gray-300 max-w-xl leading-relaxed font-medium">
+                    {bannerSlides[currentSlide].text}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+            
+            {/* High-fidelity primary actions & controls */}
+            <div className="flex flex-wrap items-center gap-4 pt-2">
               <button
-                key={idx}
-                onClick={() => setCurrentSlide(idx)}
-                className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${currentSlide === idx ? 'w-6 bg-[#FF385C]' : 'w-2.5 bg-white/40 hover:bg-white/70'}`}
-                aria-label={`Go to slide ${idx + 1}`}
-              />
-            ))}
+                onClick={() => {
+                  const catId = bannerSlides[currentSlide].category;
+                  setActiveCategory(catId);
+                  handleCategorySelect(catId);
+                }}
+                className="bg-[#FF385C] hover:bg-[#E61E4D] text-white px-8 py-4 rounded-2xl text-xs sm:text-sm font-black shadow-[0_10px_25px_-5px_rgba(255,56,92,0.4)] hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all cursor-pointer flex items-center gap-2.5 group/btn"
+              >
+                <span>{bannerSlides[currentSlide].buttonText}</span>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
+              </button>
+
+              <button
+                onClick={() => setShowMapView(true)}
+                className="bg-slate-800/90 hover:bg-slate-750 text-white border border-slate-700/60 px-6 py-4 rounded-2xl text-xs sm:text-sm font-bold hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all cursor-pointer flex items-center gap-2"
+              >
+                <Map className="w-4 h-4 text-emerald-400" />
+                <span>Interactive Map</span>
+              </button>
+            </div>
+
+            {/* Quick trust metrics */}
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-2 text-[11px] text-gray-400 font-semibold select-none">
+              <div className="flex items-center gap-1.5">
+                <Award className="w-3.5 h-3.5 text-[#FF385C]" />
+                <span>Premium Verified Hosts</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Shield className="w-3.5 h-3.5 text-emerald-400" />
+                <span>100% Secure Payments</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5 text-blue-400" />
+                <span>Flexible Cancellations</span>
+              </div>
+            </div>
+
+            {/* Interactive Thumbnail Carousel Switcher */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-slate-800/60 mt-6 lg:mt-8">
+              {bannerSlides.map((slide, idx) => {
+                const isActive = currentSlide === idx;
+                return (
+                  <button
+                    key={slide.id}
+                    onClick={() => setCurrentSlide(idx)}
+                    className={`group flex items-center gap-2.5 p-2 rounded-xl text-left transition-all relative border border-solid ${
+                      isActive
+                        ? 'bg-slate-800/60 border-slate-700 shadow-md scale-[1.02]'
+                        : 'bg-transparent border-transparent hover:bg-slate-800/30'
+                    }`}
+                  >
+                    <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0 relative bg-slate-900">
+                      <img
+                        src={slide.image}
+                        className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                        alt=""
+                      />
+                      {isActive && <div className="absolute inset-0 bg-black/10" />}
+                    </div>
+                    <div className="min-w-0 pr-1">
+                      <span className="block text-[8px] font-black uppercase text-gray-500 tracking-wider">
+                        Featured
+                      </span>
+                      <span className={`block text-xs font-bold truncate ${isActive ? 'text-white' : 'text-gray-400 group-hover:text-gray-200'}`}>
+                        {slide.id.charAt(0).toUpperCase() + slide.id.slice(1).replace('-', ' ')}
+                      </span>
+                    </div>
+                    {isActive && (
+                      <div className="absolute bottom-0 left-2.5 right-2.5 h-0.5 bg-[#FF385C] rounded-full" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
           </div>
 
-          {/* Left / Right chevron triggers */}
-          <button 
-            onClick={() => setCurrentSlide(prev => (prev - 1 + bannerSlides.length) % bannerSlides.length)}
-            className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/10 hover:bg-white/25 active:scale-90 flex items-center justify-center transition-all cursor-pointer z-20 text-white border border-white/10 backdrop-blur-xs opacity-0 group-hover:opacity-100 hidden sm:flex"
-            aria-label="Previous Slide"
-          >
-            <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
-          </button>
+          {/* Right Column: Dynamic Artboard Showcase */}
+          <div className="lg:col-span-5 relative flex items-center justify-center">
+            <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5] bg-slate-950 rounded-[2.2rem] overflow-hidden border border-slate-800/80 shadow-2xl group/card">
+              
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentSlide}
+                  initial={{ opacity: 0, scale: 1.04 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.96 }}
+                  transition={{ duration: 0.6, ease: "easeInOut" }}
+                  className="absolute inset-0 w-full h-full"
+                >
+                  <img
+                    src={bannerSlides[currentSlide].image}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover opacity-70 transition-transform duration-1000 group-hover/card:scale-[1.03]"
+                  />
+                  {/* Ambient elegant gradients for typography and floating elements */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-slate-950/30 via-transparent to-slate-950/30" />
+                </motion.div>
+              </AnimatePresence>
 
-          <button 
-            onClick={() => setCurrentSlide(prev => (prev + 1) % bannerSlides.length)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/10 hover:bg-white/25 active:scale-90 flex items-center justify-center transition-all cursor-pointer z-20 text-white border border-white/10 backdrop-blur-xs opacity-0 group-hover:opacity-100 hidden sm:flex"
-            aria-label="Next Slide"
-          >
-            <ChevronRight className="w-4 h-4 stroke-[2.5]" />
-          </button>
+              {/* Floating Glass-morphic Detail tag presenting high quality human labels */}
+              <div className="absolute bottom-6 left-6 right-6 p-4 sm:p-5 bg-slate-900/85 border border-white/10 backdrop-blur-xl rounded-2xl text-white shadow-xl z-20 flex items-center justify-between">
+                <div className="space-y-1">
+                  <span className="text-[10px] uppercase font-black tracking-widest text-[#FF385C] block">
+                    Spotlight Dest
+                  </span>
+                  <span className="text-sm font-extrabold text-white block">
+                    {bannerSlides[currentSlide].id.charAt(0).toUpperCase() + bannerSlides[currentSlide].id.slice(1).replace('-', ' ')}
+                  </span>
+                </div>
+                
+                <div className="flex flex-col items-end gap-0.5">
+                  <div className="flex items-center gap-1 text-[#FF385C]">
+                    <Star className="w-4 h-4 fill-current text-[#FF385C]" />
+                    <span className="text-sm font-black text-white">4.98</span>
+                  </div>
+                  <span className="text-[9px] text-gray-400 font-bold">Excellent Rating</span>
+                </div>
+              </div>
+
+              {/* High-contrast precision arrow page guides */}
+              <div className="absolute top-6 right-6 flex gap-2 z-20">
+                <button
+                  onClick={() => setCurrentSlide(prev => (prev - 1 + bannerSlides.length) % bannerSlides.length)}
+                  className="w-10 h-10 rounded-xl bg-slate-900/60 hover:bg-[#FF385C] hover:text-white border border-white/10 backdrop-blur-md flex items-center justify-center text-white transition-all cursor-pointer active:scale-95 shadow-lg"
+                  aria-label="Previous Slide"
+                >
+                  <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
+                </button>
+                <button
+                  onClick={() => setCurrentSlide(prev => (prev + 1) % bannerSlides.length)}
+                  className="w-10 h-10 rounded-xl bg-slate-900/60 hover:bg-[#FF385C] hover:text-white border border-white/10 backdrop-blur-md flex items-center justify-center text-white transition-all cursor-pointer active:scale-95 shadow-lg"
+                  aria-label="Next Slide"
+                >
+                  <ChevronRight className="w-5 h-5 stroke-[2.5]" />
+                </button>
+              </div>
+
+            </div>
+          </div>
 
         </div>
       </section>
@@ -1591,8 +1671,8 @@ export default function App() {
                   <div className="flex flex-col text-sm space-y-0.5">
                     
                     {/* Location and rating row */}
-                    <div className="flex items-center justify-between font-bold text-gray-900 dark:text-white">
-                      <span className="truncate pr-2">{listing.location}</span>
+                    <div className="flex items-center justify-between font-bold">
+                      <span className="truncate pr-2 text-gray-900 dark:text-white">{listing.location}</span>
                       <span className="flex items-center gap-1 shrink-0">
                         <Star className="w-3.5 h-3.5 fill-current text-amber-500" />
                         <span>{listing.rating.toFixed(2)}</span>
