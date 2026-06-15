@@ -1,0 +1,6 @@
+{
+  "name": "Airbnb Clone",
+  "description": "A pixel-perfect, highly responsive frontend clone of the Airbnb homepage featuring smooth slider interactions, category filtering, a detailed sticky header, and search animations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
