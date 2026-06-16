@@ -45,7 +45,7 @@ import {
 import { Category, Listing, SearchFilters, FilterOptions, Booking } from './types';
 import { categories, listings, inspirationDestinations } from './data';
 import LoginSignup from './components/LoginSignup';
-import AirbnbYourHome from './components/AirbnbYourHome';
+import ProStatesYourHome from './components/ProStatesYourHome';
 import HelpCenter from './components/HelpCenter';
 import MyTrips from './components/MyTrips';
 import HostInbox from './components/HostInbox';
@@ -96,7 +96,7 @@ export default function App() {
   const [allListings, setAllListings] = useState<Listing[]>(listings);
   const [activeView, setActiveView] = useState<'home' | 'hosting' | 'help-center' | 'trips' | 'inbox' | 'profile' | 'admin'>('home');
   const [currentUser, setCurrentUser] = useState<{ name: string; email: string; avatar?: string } | null>(() => {
-    const saved = localStorage.getItem('airbnb_current_user');
+    const saved = localStorage.getItem('prostates_current_user');
     return saved ? JSON.parse(saved) : null;
   });
   const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
@@ -106,7 +106,7 @@ export default function App() {
   const [darkMode, setDarkMode] = useState<boolean>(true);
 
   const [wishlist, setWishlist] = useState<number[]>(() => {
-    const saved = localStorage.getItem('airbnb_wishlist');
+    const saved = localStorage.getItem('prostates_wishlist');
     return saved ? JSON.parse(saved) : [];
   });
 
@@ -154,7 +154,7 @@ export default function App() {
 
   // New persistent Bookings structure
   const [bookings, setBookings] = useState<Booking[]>(() => {
-    const saved = localStorage.getItem('airbnb_current_bookings');
+    const saved = localStorage.getItem('prostates_current_bookings');
     return saved ? JSON.parse(saved) : [];
   });
 
@@ -232,7 +232,7 @@ export default function App() {
     } else {
       document.documentElement.classList.remove('dark');
     }
-    localStorage.setItem('airbnb_dark_mode', String(darkMode));
+    localStorage.setItem('prostates_dark_mode', String(darkMode));
   }, [darkMode]);
 
   useEffect(() => {
@@ -268,21 +268,21 @@ export default function App() {
 
   // Sync wishlist elements to localStorage
   useEffect(() => {
-    localStorage.setItem('airbnb_wishlist', JSON.stringify(wishlist));
+    localStorage.setItem('prostates_wishlist', JSON.stringify(wishlist));
   }, [wishlist]);
 
   // Sync user profile state
   useEffect(() => {
     if (currentUser) {
-      localStorage.setItem('airbnb_current_user', JSON.stringify(currentUser));
+      localStorage.setItem('prostates_current_user', JSON.stringify(currentUser));
     } else {
-      localStorage.removeItem('airbnb_current_user');
+      localStorage.removeItem('prostates_current_user');
     }
   }, [currentUser]);
 
   // Sync bookings data state
   useEffect(() => {
-    localStorage.setItem('airbnb_current_bookings', JSON.stringify(bookings));
+    localStorage.setItem('prostates_current_bookings', JSON.stringify(bookings));
   }, [bookings]);
 
   // Handle category changes with premium simulated loading animations
@@ -327,6 +327,9 @@ export default function App() {
   // Filters computed output
   const filteredListings = useMemo(() => {
     return allListings.filter(item => {
+      // Allow approved or default listings to be listed, filter out explicitly rejected ones
+      if (item.approved === false) return false;
+
       // Wishlist selection
       if (showWishlistOnly && !wishlist.includes(item.id)) return false;
 
@@ -490,8 +493,8 @@ export default function App() {
             <svg viewBox="0 0 32 32" className="w-10 h-10 text-[#FF385C] fill-current animate-pulse-slow font-bold" aria-hidden="true" focusable="false">
               <path d="M16 1c2.008 0 3.463.963 4.751 3.269l.533.982c.195.367.388.757.58 1.167L24 10.5c.343.767.652 1.559.92 2.378H23c-.34 0-.671.042-.988.12l-.4-.95c-.244-.575-.521-1.125-.826-1.645L19 7c-1.103-1.897-2.103-2.585-3-2.585s-1.897.688-3 2.585l-1.786 3.403c-.305.52-.582 1.07-.826 1.645l-.4.95c-.317-.078-.648-.12-.988-.12h-1.92c.268-.819.577-1.611.92-2.378l2.136-4.082c.192-.41.385-.8.58-1.167l.533-.982C12.537 1.963 13.992 1 16 1zm0 2c-1.397 0-2.353.646-3.411 2.535l-.545 1.008c-.168.32-.338.663-.508 1.026L10 11.5l1.096.002.433-.915c.29-.614.619-1.2.983-1.751L14.7 5c.421-.723.774-1 1.3-1s.879.277 1.3 1l2.188 3.836c.364.551.693 1.137.983 1.751l.433.915h1.096M16 28c-.801 0-1.574-.354-2.285-1.041a13.36 13.36 0 0 1-2.073-2.618L10 21.5l1.096.002c1.7 0 2.235-.494 2.898-1.558l1.451-2.42c.321-.532.656-.967 1.1-1c.444.033.779.468 1.1 1l1.451 2.42c.663 1.064 1.198 1.558 2.898 1.558H22l-1.642 2.841a13.36 13.36 0 0 1-2.073 2.618C17.574 27.646 16.801 28 16 28zm0 2c1.439 0 2.812-.588 3.991-1.74a15.353 15.353 0 0 0 2.495-3.351L24.5 21ac-.343 0-.671.042-.988.12l-.4.95c-.244.575-.521 1.125-.826 1.645L20.5 27c-1.103 1.897-2.103 2.585-3 2.585s-1.897-.688-3-2.585l-1.786-3.403a11.122 11.122 0 0 1-.826-1.645l-.4-.95c-.317-.078-.648-.12-.988-.12l2.014 3.759a15.35 15.35 0 0 0 2.495 3.351C13.188 29.412 14.561 30 16 30z"/>
             </svg>
-            <span className="hidden md:inline-block ml-2 text-xl font-extrabold tracking-tight text-[#FF385C]">
-              airbnb
+            <span className="inline-block ml-1.5 sm:ml-2 text-lg sm:text-xl font-extrabold tracking-tight text-[#FF385C]">
+              ProStates
             </span>
           </div>
 
@@ -521,7 +524,7 @@ export default function App() {
 
             {/* EXPANDED DETAILED CALENDAR & GUEST POPUP BOX */}
             {isSearchExpanded && (
-              <div className="search-expansion-panel absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[480px] sm:w-[560px] bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-2xl border border-gray-100 dark:border-gray-700 animate-slide-up z-50">
+              <div className="search-expansion-panel absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[calc(100vw-32px)] sm:w-[560px] bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-2xl border border-gray-100 dark:border-gray-700 animate-slide-up z-50">
                 
                 {/* Search Menu Headers */}
                 <div className="flex justify-around border-b border-gray-100 dark:border-gray-700 pb-3 mb-4">
@@ -728,7 +731,7 @@ export default function App() {
               }}
               className="hidden lg:inline-block text-sm font-semibold px-4 py-2.5 rounded-full transition-all text-gray-800 hover:text-black dark:text-gray-100 dark:hover:text-black hover:bg-white dark:hover:bg-white border border-transparent hover:border-gray-200 dark:hover:border-transparent hover:shadow-sm cursor-pointer"
             >
-              Airbnb your home
+              ProStates your home
             </button>
             
 
@@ -848,7 +851,7 @@ export default function App() {
                     }} 
                     className="w-full text-left px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-200 font-semibold"
                   >
-                    Airbnb your home
+                    ProStates your home
                   </button>
                   
                   <button 
@@ -944,7 +947,7 @@ export default function App() {
 
       {activeView === 'hosting' && (
         <div className="animate-fade-in">
-          <AirbnbYourHome 
+          <ProStatesYourHome 
             onClose={() => setActiveView('home')} 
             categories={categories} 
             allListings={allListings}
@@ -997,9 +1000,9 @@ export default function App() {
             onUpdateUser={(updated) => {
               setCurrentUser(updated);
               if (updated) {
-                localStorage.setItem('airbnb_current_user', JSON.stringify(updated));
+                localStorage.setItem('prostates_current_user', JSON.stringify(updated));
               } else {
-                localStorage.removeItem('airbnb_current_user');
+                localStorage.removeItem('prostates_current_user');
               }
             }}
           />
@@ -1430,11 +1433,11 @@ export default function App() {
               <div className="absolute inset-0 z-0">
                 <svg className="w-full h-full text-slate-200 dark:text-slate-900 opacity-80" xmlns="http://www.w3.org/2000/svg">
                   {/* Styled Coastline and sea bodies */}
-                  <path d="M 0 100 Q 150 120 300 80 T 600 200 T 900 150 L 1200 400 L 1200 650 L 0 650 Z" fill={localStorage.getItem('airbnb_dark_mode') === 'true' ? '#14213d' : '#ebf5ff'} className="transition-colors duration-500" />
-                  <path d="M 800 0 Q 950 50 1100 20 T 1200 80 L 1200 0 Z" fill={localStorage.getItem('airbnb_dark_mode') === 'true' ? '#14213d' : '#ebf5ff'} className="transition-colors duration-500" />
+                  <path d="M 0 100 Q 150 120 300 80 T 600 200 T 900 150 L 1200 400 L 1200 650 L 0 650 Z" fill={darkMode ? '#14213d' : '#ebf5ff'} className="transition-colors duration-500" />
+                  <path d="M 800 0 Q 950 50 1100 20 T 1200 80 L 1200 0 Z" fill={darkMode ? '#14213d' : '#ebf5ff'} className="transition-colors duration-500" />
                   
                   {/* Grid system lines representing highways & streets */}
-                  <g stroke={localStorage.getItem('airbnb_dark_mode') === 'true' ? '#1e293b' : '#e2e8f0'} strokeWidth="1" strokeDasharray="5,5">
+                  <g stroke={darkMode ? '#1e293b' : '#e2e8f0'} strokeWidth="1" strokeDasharray="5,5">
                     <line x1="0" y1="100" x2="1200" y2="100" />
                     <line x1="0" y1="250" x2="1200" y2="250" />
                     <line x1="0" y1="400" x2="1200" y2="400" />
@@ -1446,19 +1449,19 @@ export default function App() {
                   </g>
 
                   {/* Primary Highway Arterials */}
-                  <path d="M -50 200 Q 100 150 350 350 T 800 480 T 1300 450" fill="none" stroke={localStorage.getItem('airbnb_dark_mode') === 'true' ? '#334155' : '#cbd5e1'} strokeWidth="4" />
-                  <path d="M 250 -50 Q 300 200 450 400 T 900 700" fill="none" stroke={localStorage.getItem('airbnb_dark_mode') === 'true' ? '#334155' : '#cbd5e1'} strokeWidth="3" />
+                  <path d="M -50 200 Q 100 150 350 350 T 800 480 T 1300 450" fill="none" stroke={darkMode ? '#334155' : '#cbd5e1'} strokeWidth="4" />
+                  <path d="M 250 -50 Q 300 200 450 400 T 900 700" fill="none" stroke={darkMode ? '#334155' : '#cbd5e1'} strokeWidth="3" />
                   
                   {/* Winding scenic river path */}
-                  <path d="M 750 -50 Q 700 180 820 340 T 570 520 T -50 600" fill="none" stroke={localStorage.getItem('airbnb_dark_mode') === 'true' ? '#1d4ed8' : '#60a5fa'} strokeWidth="8" strokeLinecap="round" className="opacity-40" />
+                  <path d="M 750 -50 Q 700 180 820 340 T 570 520 T -50 600" fill="none" stroke={darkMode ? '#1d4ed8' : '#60a5fa'} strokeWidth="8" strokeLinecap="round" className="opacity-40" />
 
                   {/* Curving topographical details contour rings */}
-                  <circle cx="200" cy="450" r="160" fill="none" stroke={localStorage.getItem('airbnb_dark_mode') === 'true' ? '#1e293b' : '#e2e8f0'} strokeWidth="1" className="opacity-40" />
-                  <circle cx="200" cy="450" r="110" fill="none" stroke={localStorage.getItem('airbnb_dark_mode') === 'true' ? '#1e293b' : '#e2e8f0'} strokeWidth="1" className="opacity-40" />
-                  <circle cx="950" cy="150" r="120" fill="none" stroke={localStorage.getItem('airbnb_dark_mode') === 'true' ? '#1e293b' : '#e2e8f0'} strokeWidth="1" className="opacity-40" />
+                  <circle cx="200" cy="450" r="160" fill="none" stroke={darkMode ? '#1e293b' : '#e2e8f0'} strokeWidth="1" className="opacity-40" />
+                  <circle cx="200" cy="450" r="110" fill="none" stroke={darkMode ? '#1e293b' : '#e2e8f0'} strokeWidth="1" className="opacity-40" />
+                  <circle cx="950" cy="150" r="120" fill="none" stroke={darkMode ? '#1e293b' : '#e2e8f0'} strokeWidth="1" className="opacity-40" />
 
                   {/* Scenic landmarks indicators */}
-                  <g fill={localStorage.getItem('airbnb_dark_mode') === 'true' ? '#334155' : '#cbd5e1'} className="text-[10px] font-semibold select-none opacity-60">
+                  <g fill={darkMode ? '#334155' : '#cbd5e1'} className="text-[10px] font-semibold select-none opacity-60">
                     <text x="50" y="230">Pacific Highway R1</text>
                     <text x="800" y="250">Garonne River Bend</text>
                     <text x="140" y="440">Scenic Peaks State Park</text>
@@ -1832,27 +1835,27 @@ export default function App() {
                     }}
                     className="hover:underline cursor-pointer text-left font-medium block"
                   >
-                    Airbnb your home
+                    ProStates your home
                   </button>
                 </li>
-                <li><a href="#" className="hover:underline">AirCover for Hosts</a></li>
+                <li><a href="#" className="hover:underline">ProCover for Hosts</a></li>
                 <li><a href="#" className="hover:underline">Hosting resources</a></li>
                 <li><a href="#" className="hover:underline">Community forum</a></li>
                 <li><a href="#" className="hover:underline">Hosting responsibly</a></li>
-                <li><a href="#" className="hover:underline">Airbnb-friendly apartments</a></li>
+                <li><a href="#" className="hover:underline">ProStates-friendly apartments</a></li>
               </ul>
             </div>
 
-            {/* Column Airbnb */}
+            {/* Column ProStates */}
             <div className="space-y-4">
-              <span className="block text-xs font-bold uppercase tracking-wide text-gray-900 dark:text-white">Airbnb</span>
+              <span className="block text-xs font-bold uppercase tracking-wide text-gray-900 dark:text-white">ProStates</span>
               <ul className="space-y-2.5">
                 <li><a href="#" className="hover:underline">Newsroom</a></li>
                 <li><a href="#" className="hover:underline">New features</a></li>
                 <li><a href="#" className="hover:underline">Careers</a></li>
                 <li><a href="#" className="hover:underline">Investors</a></li>
                 <li><a href="#" className="hover:underline">Gift cards</a></li>
-                <li><a href="#" className="hover:underline">Airbnb.org disaster relief</a></li>
+                <li><a href="#" className="hover:underline">ProStates.org disaster relief</a></li>
               </ul>
             </div>
 
@@ -1860,7 +1863,7 @@ export default function App() {
             <div className="space-y-4 font-normal">
               <div className="flex items-center gap-1.5 text-gray-900 dark:text-white font-extrabold text-sm mb-3">
                 <Shield className="w-5 h-5 text-[#FF385C]" />
-                <span>Airbnb Safety Core</span>
+                <span>ProStates Safety Core</span>
               </div>
               <p className="text-xs leading-relaxed text-gray-500 dark:text-gray-400">
                 All guest hosts profile verifications are completed securely. Your safety, payment processes, and booking protection structures remain shielded on each transaction.
@@ -1878,7 +1881,7 @@ export default function App() {
             
             {/* Meta links */}
             <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center md:text-left text-[11px] text-gray-500">
-              <span>© 2026 Airbnb, Inc.</span>
+              <span>© 2026 ProStates, Inc.</span>
               <span className="hidden md:inline">•</span>
               <a href="#" className="hover:underline">Privacy Policy</a>
               <span className="hidden md:inline">•</span>
@@ -1900,9 +1903,9 @@ export default function App() {
               </div>
               {/* Social Media SVG shortcuts */}
               <div className="flex items-center gap-4 text-gray-500 dark:text-gray-300">
-                <a href="#" aria-label="Airbnb Facebook page"><svg className="w-5 h-5 fill-current grayscale hover:grayscale-0 hover:text-blue-600" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg></a>
-                <a href="#" aria-label="Airbnb Twitter/X account"><svg className="w-4.5 h-4.5 fill-current grayscale hover:grayscale-0 hover:text-black dark:hover:text-white" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-                <a href="#" aria-label="Airbnb Instagram channel"><svg className="w-5 h-5 fill-current grayscale hover:grayscale-0 hover:text-pink-600 animate-pulse-slow" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                <a href="#" aria-label="ProStates Facebook page"><svg className="w-5 h-5 fill-current grayscale hover:grayscale-0 hover:text-blue-600" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg></a>
+                <a href="#" aria-label="ProStates Twitter/X account"><svg className="w-4.5 h-4.5 fill-current grayscale hover:grayscale-0 hover:text-black dark:hover:text-white" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                <a href="#" aria-label="ProStates Instagram channel"><svg className="w-5 h-5 fill-current grayscale hover:grayscale-0 hover:text-pink-600 animate-pulse-slow" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
               </div>
             </div>
 
@@ -1925,7 +1928,7 @@ export default function App() {
       {/* ======================================================= */}
       {/* 10. DETAILED LISTING PROPERTY DETAIL MODAL - ROW LAYOUT */}
       {selectedListing && (
-        <div className="fixed inset-0 z-50 bg-black/60 dark:bg-black/80 flex items-center justify-center p-4 overflow-y-auto backdrop-blur-xs select-none">
+        <div className="fixed inset-0 z-50 bg-black/60 dark:bg-black/80 flex items-center justify-center p-2 sm:p-4 overflow-y-auto backdrop-blur-xs select-none">
           <div className="bg-white dark:bg-slate-800 rounded-3xl w-full max-w-4xl shadow-2xl relative animate-slide-up flex flex-col max-h-[90vh] overflow-hidden border border-gray-100 dark:border-gray-700">
             
             {/* Modal Top Header (Sticky Title & Close) */}
@@ -1950,16 +1953,16 @@ export default function App() {
             {/* Modal Scrollable Content Container */}
             <div className="flex-1 overflow-y-auto p-6 space-y-8 text-left">
               
-              {/* Photo Collage Space */}
-              <div className="grid grid-cols-4 gap-2.5 rounded-2xl overflow-hidden aspect-[16/9] sm:aspect-[21/9]">
-                <div className="col-span-2 h-full">
+               {/* Photo Collage Space */}
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-2.5 rounded-2xl overflow-hidden aspect-[16/10] sm:aspect-[21/9]">
+                <div className="col-span-1 sm:col-span-2 h-full">
                   <img src={selectedListing.images[0]} alt={`${selectedListing.title} master space`} className="w-full h-full object-cover hover:scale-[1.03] transition-transform duration-500" />
                 </div>
-                <div className="col-span-1 flex flex-col gap-2.5 h-full">
+                <div className="hidden sm:col-span-1 sm:flex flex-col gap-2.5 h-full">
                   <img src={selectedListing.images[1]} alt="Gallery 2" className="w-full h-1/2 object-cover flex-1 hover:scale-[1.03] transition duration-500" />
                   <img src={selectedListing.images[2]} alt="Gallery 3" className="w-full h-1/2 object-cover flex-1 hover:scale-[1.03] transition duration-500" />
                 </div>
-                <div className="col-span-1 h-full relative">
+                <div className="hidden sm:col-span-1 sm:block h-full relative">
                   <img src={selectedListing.images[3]} alt="Gallery 4" className="w-full h-full object-cover hover:scale-[1.03] transition-transform duration-500" />
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                     <span className="text-white text-xs font-bold bg-black/60 px-3 py-1.5 rounded-lg border border-white/20">
@@ -2246,7 +2249,7 @@ export default function App() {
                         <span className="font-extrabold dark:text-white text-sm">${priceCalculation.cleaning}</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="underline text-slate-900 dark:text-slate-200 select-none cursor-help hover:text-[#FF385C] transition-colors">Airbnb service fee</span>
+                        <span className="underline text-slate-900 dark:text-slate-200 select-none cursor-help hover:text-[#FF385C] transition-colors">ProStates service fee</span>
                         <span className="font-extrabold dark:text-white text-sm">${priceCalculation.service}</span>
                       </div>
                       

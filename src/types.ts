@@ -24,6 +24,7 @@ export interface Listing {
   bathrooms: number;
   amenities: string[];
   coordinates: { lat: number; lng: number };
+  approved?: boolean; // Admin approval state for listing management
 }
 
 export interface Category {
@@ -65,7 +66,8 @@ export interface Booking {
   totalPaid: number;
   checkInCode: string; // 6-digit access PIN
   wifiPassword?: string;
-  status: 'active' | 'completed' | 'cancelled';
+  status: 'pending' | 'active' | 'completed' | 'cancelled' | 'refunded';
+  payoutStatus?: 'Unpaid' | 'Processing' | 'Paid' | 'Refunded';
   bookedAt: string;
 }
 

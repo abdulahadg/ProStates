@@ -218,10 +218,10 @@ export default function HostInbox({ onClose, bookings, allListings }: HostInboxP
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-0 border border-gray-200 dark:border-gray-800 rounded-3xl overflow-hidden shadow-2xl bg-white dark:bg-slate-950 h-[640px]">
+      <div className="flex flex-col md:grid md:grid-cols-12 gap-0 border border-gray-200 dark:border-gray-800 rounded-3xl overflow-hidden shadow-2xl bg-white dark:bg-slate-950 h-[640px] md:h-[640px]">
         
         {/* Left column - Threads list */}
-        <div className="md:col-span-4 border-r border-gray-200 dark:border-gray-800 flex flex-col h-full bg-slate-50/50 dark:bg-slate-950">
+        <div className="h-[200px] md:h-full md:col-span-4 border-b md:border-b-0 md:border-r border-gray-200 dark:border-gray-800 flex flex-col bg-slate-50/50 dark:bg-slate-950">
           
           {/* Threads search */}
           <div className="p-4 border-b border-gray-250/60 dark:border-gray-800 space-y-3 select-none">
@@ -284,7 +284,7 @@ export default function HostInbox({ onClose, bookings, allListings }: HostInboxP
         </div>
 
         {/* Right column - Message dialogue viewport */}
-        <div className="md:col-span-8 flex flex-col h-full bg-white dark:bg-slate-900 text-left">
+        <div className="flex-1 md:h-full md:col-span-8 flex flex-col bg-white dark:bg-slate-900 text-left">
           
           {/* Active Thread metadata header */}
           <div className="border-b border-gray-200 dark:border-gray-800 p-4 flex items-center justify-between select-none">

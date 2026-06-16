@@ -9,16 +9,16 @@ interface HelpCenterProps {
 const helpArticles = [
   { id: 'refund', title: 'How to cancel my reservation & request a refund', category: 'guests', content: 'You can easily cancel any active reservation from your profile trips tab. Standard full refunds are subject to individual listing parameters. Free cancellations can be done up to 48 hours beforehand.' },
   { id: 'checkin', title: 'Finding your direct check-in coordinates & code keys', category: 'guests', content: 'Secure check-in code keys are automatically dispatched directly to your booking confirmation dashboard 24 hours before arrival. For smart-locks, enter the 6-digit pin code precisely.' },
-  { id: 'damaged', title: 'Reporting damaged spaces under Host AirCover protection', category: 'hosts', content: 'Hosts are fully integrated with up to $3M in total damage protection. Simply access your host dashboard list, pick your listing, and file a photo claim report within 14 days of checkout.' },
+  { id: 'damaged', title: 'Reporting damaged spaces under Host ProCover protection', category: 'hosts', content: 'Hosts are fully integrated with up to $3M in total damage protection. Simply access your host dashboard list, pick your listing, and file a photo claim report within 14 days of checkout.' },
   { id: 'payments', title: 'Why is my billing payment currency declining?', category: 'payments', content: 'Please ensure international travel transactions are permitted by your primary banking institution. Our platform secure system validates address details immediately.' },
-  { id: 'listing', title: 'How can I list my home as a registered Host?', category: 'hosts', content: 'To list your space, switch over to our "Airbnb your home" guide. Set custom categories, upload 1 to 4 beautiful listing images, define prices, and instantly activate stay pins on the live map.' },
+  { id: 'listing', title: 'How can I list my home as a registered Host?', category: 'hosts', content: 'To list your space, switch over to our "ProStates your home" guide. Set custom categories, upload 1 to 4 beautiful listing images, define prices, and instantly activate stay pins on the live map.' },
   { id: 'verification', title: 'The Guest Identity Verification safety policy guide', category: 'safety', content: 'To keep host properties secure, travelers undergo automated credential screening. Approved profiles receive an emerald verified badge next to their hosted names.' }
 ];
 
 const faqs = [
-  { q: "Is cancellation free on all listed properties?", a: "Most unique properties on our Travel Deck support free cancellations up to 48 hours in advance. Always review individual listings booking cards before confirming stay dates." },
+  { q: "What should I do if a space is unclean upon arrival?", a: "Most unique properties on our Travel Deck support free cancellations up to 48 hours in advance. Always review individual listings booking cards before confirming stay dates." },
   { q: "How do I become a Superhost guide?", a: "Superhost guides are selected based on sustained professional feedback. Maintain a 4.85+ global rating, zero cancellations, and an active response rate above 90%." },
-  { q: "What should I do if a space is unclean upon arrival?", a: "Take clear photos immediately and contact your host. If they do not respond within 1 hour, file a support dispute ticket. AirCover will relocate you to an equivalent stay at no cost." },
+  { q: "What should I do if a space is unclean upon arrival?", a: "Take clear photos immediately and contact your host. If they do not respond within 1 hour, file a support dispute ticket. ProCover will relocate you to an equivalent stay at no cost." },
   { q: "How are security payouts dispatched?", a: "Payouts are dispatched exactly 24 hours after a guest completes verified check-in. This safety buffer helps protect both clients and hosts." }
 ];
 
@@ -40,7 +40,7 @@ export default function HelpCenter({ onClose }: HelpCenterProps) {
 
   // Live support assistant console state
   const [messages, setMessages] = useState<Array<{ sender: 'user' | 'assistant'; text: string; time: string }>>([
-    { sender: 'assistant', text: 'Hello! I am your Airbnb Travel Deck Assistant. How can I guide you today? Ask me about refunds, hosting setup, check-in keys, or security policies!', time: 'Live' }
+    { sender: 'assistant', text: 'Hello! I am your ProStates Travel Deck Assistant. How can I guide you today? Ask me about refunds, hosting setup, check-in keys, or security policies!', time: 'Live' }
   ]);
   const [chatInput, setChatInput] = useState('');
   const [botTyping, setBotTyping] = useState(false);
@@ -100,13 +100,13 @@ export default function HelpCenter({ onClose }: HelpCenterProps) {
       if (lower.includes('refund') || lower.includes('cancel')) {
         botResponse = "To cancel your booking: Open your details, locate the stay card, and choose 'Cancel Stay'. If within 48 hours, a refund will automatically write back to your account.";
       } else if (lower.includes('host') || lower.includes('home') || lower.includes('list')) {
-        botResponse = "Becoming a Host is simple! Click the 'Airbnb your home' button in the head actions. You can use our monthly income calculator, compile your specifications, and publish instantly!";
+        botResponse = "Becoming a Host is simple! Click the 'ProStates your home' button in the head actions. You can use our monthly income calculator, compile your specifications, and publish instantly!";
       } else if (lower.includes('check') || lower.includes('key') || lower.includes('code')) {
         botResponse = "Your 6-digit secure check-in code is unlocked 24 hours prior to travel. Go to stay details to check smart-lock guides of active stays.";
       } else if (lower.includes('payment') || lower.includes('price') || lower.includes('card')) {
         botResponse = "Payment processing declines occur if regional travel triggers block online charges. Complete secure checkout inside our Booking Side-card panel.";
       } else if (lower.isPrototypeOf || lower.includes('unclean') || lower.includes('dirty') || lower.includes('problem')) {
-        botResponse = "Take photo evidence and submit a Support Ticket right away using the form next to this screen. We will contact your host or activate full AirCover relocating.";
+        botResponse = "Take photo evidence and submit a Support Ticket right away using the form next to this screen. We will contact your host or activate full ProCover relocating.";
       }
 
       setMessages(prev => [...prev, { sender: 'assistant', text: botResponse, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }]);
@@ -323,7 +323,7 @@ export default function HelpCenter({ onClose }: HelpCenterProps) {
             )}
 
             <form onSubmit={handleTicketSubmit} className="space-y-3 text-left">
-              <div className="grid grid-cols-2 gap-3.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
                   <label className="block text-[9px] font-black uppercase text-slate-900 dark:text-slate-300 tracking-wider mb-1">Your Name</label>
                   <input

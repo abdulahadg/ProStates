@@ -209,7 +209,7 @@ export default function MyTrips({ bookings, onCancelBooking, onClose }: MyTripsP
                       <Wifi className="w-3.5 h-3.5 text-rose-500" />
                       <span>Wifi SSID: <b className="text-white">StayPremium-5G</b></span>
                     </p>
-                    <p className="mt-1">Password: <b className="text-white">airbnb-relax-2026</b></p>
+                    <p className="mt-1">Password: <b className="text-white">prostates-relax-2026</b></p>
                   </div>
                 </div>
               )}

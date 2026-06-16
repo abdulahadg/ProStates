@@ -85,7 +85,7 @@ export default function LoginSignup({ onClose, onLoginSuccess, initialTab = 'log
           
           <div className="text-center mt-3 mb-6 select-none">
             <h2 className="text-2xl font-black text-slate-950 dark:text-white tracking-tight flex items-center justify-center gap-2">
-              <span className="text-[#FF385C]">★</span> Airbnb Core Spaces
+              <span className="text-[#FF385C]">★</span> ProStates Core Spaces
             </h2>
             <p className="text-xs text-gray-500 dark:text-gray-400 font-semibold mt-1">
               {activeTab === 'login' ? 'Welcome back! Explore your dream stays.' : 'Join the elite community of modern travelers.'}
@@ -224,7 +224,7 @@ export default function LoginSignup({ onClose, onLoginSuccess, initialTab = 'log
           </div>
 
           {/* Social Sign In Buttons */}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <button
               onClick={() => {
                 setEmail('ahad.google@example.com');

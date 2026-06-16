@@ -164,7 +164,7 @@ export default function UserProfile({ onClose, currentUser, onUpdateUser }: User
           <div className="bg-gradient-to-tr from-slate-950 to-slate-900 border border-slate-800 p-6 rounded-3xl text-white space-y-4">
             <div className="text-left select-none">
               <span className="text-[9px] uppercase font-black text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 tracking-wider">Secure Identity check</span>
-              <h4 className="text-base font-black mt-2">Airbnb Passport Scan</h4>
+              <h4 className="text-base font-black mt-2">ProStates Passport Scan</h4>
               <p className="text-[11px] text-gray-300 font-medium leading-relaxed mt-1">
                 To reserve highly-rated custom spaces safely, upload a photo verification or mock passport scanner credentials to win the premium emerald badge.
               </p>

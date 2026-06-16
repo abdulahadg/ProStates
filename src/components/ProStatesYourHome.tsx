@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import { Listing, Category } from '../types';
 
-interface AirbnbYourHomeProps {
+interface ProStatesYourHomeProps {
   onClose: () => void;
   categories: Category[];
   onPublishListing: (newListing: Listing) => void;
@@ -34,7 +34,7 @@ const mockRegions = [
   { name: "Santorini Cliff Horizon", price: 680, category: "amazing-views", location: "Oia, Santorini", country: "Greece" },
 ];
 
-export default function AirbnbYourHome({ onClose, categories, onPublishListing, allListings, onDeleteListing }: AirbnbYourHomeProps) {
+export default function ProStatesYourHome({ onClose, categories, onPublishListing, allListings, onDeleteListing }: ProStatesYourHomeProps) {
   // Navigation states
   const [activeSegment, setActiveSegment] = useState<'create' | 'manage'>('create');
 
@@ -263,7 +263,7 @@ export default function AirbnbYourHome({ onClose, categories, onPublishListing, 
             <div className="bg-slate-50 dark:bg-slate-900 border border-gray-200 dark:border-gray-800 rounded-3xl p-6 text-left space-y-5 shadow-sm">
               <h3 className="text-base font-black flex items-center gap-2">
                 <ShieldCheck className="w-5.5 h-5.5 text-emerald-600 dark:text-emerald-400" />
-                <span>Host with peace of mind (AirCover)</span>
+                <span>Host with peace of mind (ProCover)</span>
               </h3>
               
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
@@ -407,7 +407,7 @@ export default function AirbnbYourHome({ onClose, categories, onPublishListing, 
               </div>
 
               {/* Room specs configs */}
-              <div className="grid grid-cols-3 gap-4 text-left">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-left">
                 <div>
                   <label className="block text-[10px] font-black uppercase text-slate-900 dark:text-slate-300 tracking-wider mb-1.5">Bedrooms</label>
                   <input
